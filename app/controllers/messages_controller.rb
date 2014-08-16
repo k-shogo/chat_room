@@ -1,8 +1,9 @@
 class MessagesController < ApplicationController
+  before_action :require_user_name
+
   # POST /messages
-  # POST /messages.json
   def create
-    @message = Message.new(message_params)
+    @message = Message.new(message_params.merge(speaker: @user_name))
 
     respond_to do |format|
       if @message.save

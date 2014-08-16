@@ -1,0 +1,15 @@
+= form_for(@user_name_form, url: sessions_path) do |f|
+  - if @user_name_form.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@user_name_form.errors.count, "error")
+        prohibited this room from being saved:
+      %ul
+        - @user_name_form.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .actions
+    = f.submit
