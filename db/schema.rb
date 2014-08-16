@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140816074741) do
+ActiveRecord::Schema.define(version: 20140816074924) do
+
+  create_table "messages", force: true do |t|
+    t.integer  "room_id"
+    t.string   "speaker"
+    t.string   "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["room_id"], name: "index_messages_on_room_id"
 
   create_table "rooms", force: true do |t|
     t.string   "name"
