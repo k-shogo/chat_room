@@ -1,0 +1,8 @@
+%b.summary
+  = room.name
+.date
+  = room.created_at
+.extra.text
+  = link_to 'Show', room, class: 'ui button'
+  = link_to 'Edit', edit_room_path(room), class: 'ui button'
+  = link_to 'Destroy', room, method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button'

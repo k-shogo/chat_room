@@ -8,6 +8,10 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.save
         format.html { redirect_to room_path(@message.room), notice: 'Message was successfully created.' }
+        format.js {
+          html = render_to_string partial: 'message', locals: { message: @message }
+          render json: {data: @item, status: :created, html: html}
+        }
       else
         format.html { render :new }
       end

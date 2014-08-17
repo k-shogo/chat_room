@@ -1,22 +1,14 @@
 %p#notice= notice
 
-%p
-  %strong Name:
+%h1
+  Room:
   = @room.name
+
+= link_to 'Edit', edit_room_path(@room)
+
+= link_to 'Back', rooms_path
 
 = render 'messages/form'
 
-%h1 Listing messages
-%table
-  %thead
-    %tr
-      %th Body
-  %tbody
-    - @room.messages.each do |message|
-      %tr
-        %td= message.body
-%br/
-
-= link_to 'Edit', edit_room_path(@room)
-|
-\#{link_to 'Back', rooms_path}
+#messages
+  = render @room.messages.newer

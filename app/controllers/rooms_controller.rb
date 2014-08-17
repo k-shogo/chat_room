@@ -11,7 +11,7 @@ class RoomsController < ApplicationController
   # GET /rooms/1
   # GET /rooms/1.json
   def show
-    @message = @room.messages.build
+    @message = Message.new(room: @room)
   end
 
   # GET /rooms/new
