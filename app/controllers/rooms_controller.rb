@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  include ActionController::Live
   before_action :require_user_name
   before_action :set_room, only: [:show, :edit, :update, :destroy]
 
@@ -61,6 +62,22 @@ class RoomsController < ApplicationController
       format.html { redirect_to rooms_url, notice: 'Room was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def events
+    response.headers["Content-Type"] = "text/event-stream"
+    redis = Redis.new(timeout: 10)
+    redis.subscribe("rooms.#{params[:id]}.events") do |on|
+      on.message do |channel, message|
+        response.stream.write("event: message\n")
+        response.stream.write("data: #{message}\n\n")
+      end
+    end
+  rescue IOError
+    logger.info "Stream closed"
+  ensure
+    redis.quit
+    response.stream.close
   end
 
   private

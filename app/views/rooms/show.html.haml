@@ -1,3 +1,11 @@
+:coffee
+  $ ->
+    source = new EventSource("/rooms/#{@room.id}/events")
+    source.addEventListener 'message', (e) ->
+      response = $.parseJSON(e.data)
+      html = response.html
+      $('#messages').prepend html
+
 %p#notice= notice
 
 %h1
