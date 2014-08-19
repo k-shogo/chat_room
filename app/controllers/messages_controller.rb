@@ -10,7 +10,9 @@ class MessagesController < ApplicationController
         format.html { redirect_to room_path(@message.room), notice: 'Message was successfully created.' }
         format.js {
           html = render_to_string partial: 'message', locals: { message: @message }
-          render json: {data: @item, status: :created, html: html}
+          data = {status: :created, html: html}
+          WebsocketRails["room.#{@message.room_id}"].trigger :message, data.to_json
+          render json: {status: :created}
         }
       else
         format.html { render :new }

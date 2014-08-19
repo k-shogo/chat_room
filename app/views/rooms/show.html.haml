@@ -1,5 +1,13 @@
 %p#notice= notice
 
+:coffee
+  dispatcher = new WebSocketRails(location.host + "/websocket")
+  channel = dispatcher.subscribe("room.#{@room.id}")
+  channel.bind "message", (data) ->
+    response = $.parseJSON(data)
+    html = response.html
+    $('#messages').prepend html
+
 %h1
   Room:
   = @room.name
